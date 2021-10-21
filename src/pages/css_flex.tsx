@@ -1,6 +1,8 @@
 import React from 'react'
 import { Layout } from '../components'
 
+import * as styles from './css_flex.module.scss'
+
 export default function PageA() {
   return (
     <Layout>
@@ -19,7 +21,11 @@ export default function PageA() {
           MDN Flexbox link
         </a>
         <br />
-        内容嘛，下次再说
+      </div>
+      <div className={styles.c}>
+        <div className={styles.div1}>div1</div>
+        <div className={styles.div3}>div3</div>
+        <div className={styles.div2}>div2</div>
       </div>
     </Layout>
   )

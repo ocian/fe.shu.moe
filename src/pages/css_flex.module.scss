@@ -1,0 +1,28 @@
+.c {
+  display: flex;
+  flex-direction: column;
+  & > div {
+    height: 50px;
+    border: 1px solid #eee;
+    margin: 5px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+}
+
+.div1 {
+  width: 100px;
+  background-color: rgba(0, 0, 255, 0.3);
+}
+.div2 {
+  width: 100px;
+  background-color: rgba(0, 255, 0, 0.3);
+  order: 1;
+  transform: translateY(-100px);
+}
+.div3 {
+  flex: auto;
+  background-color: rgba(255, 0, 0, 0.3);
+  transform: translateY(-50px);
+}

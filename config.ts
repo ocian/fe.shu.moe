@@ -15,7 +15,6 @@ const config = {
   },
   pages: pagePaths,
   publicPath: '/',
-  assetsPrefix: '_assets/',
 }
 
 export default config

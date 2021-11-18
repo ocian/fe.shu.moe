@@ -4,4 +4,4 @@ export const pages = [
   { path: '/grid', name: 'grid', label: 'Grid' },
 ]
 
-export const pagePaths = pages.map(({ path }) => path)
+export const pagePaths = pages.map(({ name }) => name)

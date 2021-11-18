@@ -20,7 +20,7 @@ function compiler(): webpack.Configuration {
 
   const mode = ENV !== 'production' ? 'development' : 'production'
   const filename =
-    config.assetsPrefix +
+    'js/' +
     (mode !== 'production' ? '[name].js' : '[name].[contenthash:7].js')
 
   const splitChunks = { chunks: 'all' as 'all' }
@@ -35,14 +35,14 @@ function compiler(): webpack.Configuration {
       ? []
       : [
           new MiniCssExtractPlugin({
-            filename: config.assetsPrefix + '[name].[contenthash:7].css',
-            chunkFilename: config.assetsPrefix + '[id].[contenthash:7].css',
+            filename: 'css/[name].[contenthash:7].css',
+            chunkFilename: 'css/[id].[contenthash:7].css',
           }),
-          // new FaviconsWebpackPlugin({
-          //   logo: pathFile.favicon,
-          //   cache: true,
-          //   favicons: config.favicons,
-          // }),
+          new FaviconsWebpackPlugin({
+            logo: pathFile.favicon,
+            cache: true,
+            favicons: config.favicons,
+          }),
           // new BundleAnalyzerPlugin({ analyzerMode: "static" })
         ]
 

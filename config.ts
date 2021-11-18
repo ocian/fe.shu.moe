@@ -1,3 +1,5 @@
+import { pagePaths } from './src/config'
+
 const config = {
   favicons: {
     appName: 'my-app',
@@ -8,9 +10,12 @@ const config = {
     theme_color: '#333',
     icons: {
       coast: false,
-      yandex: false
-    }
-  }
+      yandex: false,
+    },
+  },
+  pages: pagePaths,
+  publicPath: '/',
+  assetsPrefix: '_assets/',
 }
 
 export default config

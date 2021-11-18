@@ -20,9 +20,10 @@ function compiler(): webpack.Configuration {
 
   const mode = ENV !== 'production' ? 'development' : 'production'
   const filename =
-    mode !== 'production' ? '[name].js' : '[name].[contenthash:7].js'
+    config.assetsPrefix +
+    (mode !== 'production' ? '[name].js' : '[name].[contenthash:7].js')
 
-  const splitChunks = { chunks: 'all' as 'all', }
+  const splitChunks = { chunks: 'all' as 'all' }
   const optimization =
     mode !== 'production'
       ? { splitChunks }
@@ -33,39 +34,56 @@ function compiler(): webpack.Configuration {
     mode !== 'production'
       ? []
       : [
-        new MiniCssExtractPlugin({
-          filename: '[name].[contenthash:7].css',
-          chunkFilename: '[id].[contenthash:7].css',
-        }),
-        new FaviconsWebpackPlugin({
-          logo: pathFile.favicon,
-          cache: true,
-          favicons: config.favicons,
-        }),
-        // new BundleAnalyzerPlugin({ analyzerMode: "static" })
-      ]
+          new MiniCssExtractPlugin({
+            filename: config.assetsPrefix + '[name].[contenthash:7].css',
+            chunkFilename: config.assetsPrefix + '[id].[contenthash:7].css',
+          }),
+          // new FaviconsWebpackPlugin({
+          //   logo: pathFile.favicon,
+          //   cache: true,
+          //   favicons: config.favicons,
+          // }),
+          // new BundleAnalyzerPlugin({ analyzerMode: "static" })
+        ]
 
   return {
-    entry: './src/views/index.tsx',
-    output: { path: pathFile.dist, filename, clean: true, },
+    entry: config.pages
+      .map((page) => ({ [page]: `./src/pages/${page}.tsx` }))
+      .reduce((l, r) => ({ ...l, ...r }), {}),
+    output: {
+      path: pathFile.dist,
+      filename,
+      clean: true,
+      publicPath: config.publicPath,
+    },
     module: {
       rules: [
         {
           test: /\.tsx?$/,
           use: [{ loader: 'ts-loader', options: { transpileOnly: true } }],
         },
-        { test: /\.css$/, use: [styleLoader, 'css-loader'], },
-        { test: /\.s(a|c)ss$/, use: [styleLoader, 'css-loader', 'sass-loader'] },
+        { test: /\.css$/, use: [styleLoader, 'css-loader'] },
+        {
+          test: /\.s(a|c)ss$/,
+          use: [styleLoader, 'css-loader', 'sass-loader'],
+        },
         {
           test: /\.(gif|png|jpe?g|svg)$/i,
           type: 'asset/resource',
-          use: ['image-webpack-loader']
-        }
+          use: ['image-webpack-loader'],
+        },
       ],
     },
     plugins: [
       new ForkTsCheckerWebpackPlugin(),
-      new HtmlWebpackPlugin({ template: pathFile.html, }),
+      ...config.pages.map(
+        (page) =>
+          new HtmlWebpackPlugin({
+            template: pathFile.html,
+            chunks: [page],
+            filename: `${page === 'index' ? page : page + '/index'}.html`,
+          })
+      ),
       ...plugins,
     ],
     devServer: { hot: true },

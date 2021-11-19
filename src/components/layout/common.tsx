@@ -6,7 +6,7 @@ import { Sidebar } from './sidebar'
 
 export function Common(props: React.PropsWithChildren<{}>) {
   return (
-    <Provider theme={defaultTheme}>
+    <Provider theme={defaultTheme} isEmphasized>
       <View backgroundColor="static-white" height="100vh">
         <Flex direction={{ base: 'column', S: 'row' }}>
           <Sidebar />

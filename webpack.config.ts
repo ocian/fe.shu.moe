@@ -20,8 +20,7 @@ function compiler(): webpack.Configuration {
 
   const mode = ENV !== 'production' ? 'development' : 'production'
   const filename =
-    'js/' +
-    (mode !== 'production' ? '[name].js' : '[name].[contenthash:7].js')
+    'js/' + (mode !== 'production' ? '[name].js' : '[name].[contenthash:7].js')
 
   const splitChunks = { chunks: 'all' as 'all' }
   const optimization =
